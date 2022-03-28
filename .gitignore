@@ -127,3 +127,19 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Data 
+./data
+./input
+
+./data/
+./input/
+
+data
+input
+
+data/
+input/
+
+# pth
+*.pth
