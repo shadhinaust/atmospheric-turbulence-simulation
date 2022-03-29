@@ -63,18 +63,18 @@ def zernike_reconstruct(img, radius, D, cof):
     reconstr[k] = accum
     return reconstr
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
 
-    import cv2
-    import pylab as pl
-    from matplotlib import cm
+#     import cv2
+#     import pylab as pl
+#     from matplotlib import cm
 
-    D = 12
+#     D = 12
 
-    img = cv2.imread('./data/lfw-py/lfw-deepfunneled/Aaron_Eckhart/Aaron_Eckhart_0001.jpg', 0)
+#     img = cv2.imread('./data/lfw-py/lfw-deepfunneled/Aaron_Eckhart/Aaron_Eckhart_0001.jpg', 0)
 
-    rows, cols = img.shape
-    radius = cols//2 if rows > cols else rows//2
+#     rows, cols = img.shape
+#     radius = cols//2 if rows > cols else rows//2
 
     # reconst = zernike_reconstruct(img, radius, D, (rows/2., cols/2.))
 
