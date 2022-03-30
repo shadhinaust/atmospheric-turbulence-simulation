@@ -5,18 +5,17 @@ import torchvision
 import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
 import numpy as np
-import mahotas as mh
 from zernik import zernike_reconstruct as zernik
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-n_epochs = 4 # MAX = 19; 500*19 ~= total samples 
+# n_epochs = 4 # MAX = 19; 500*19 ~= total samples 
 batch_size = 1
-learning_rate = 0.001
+# learning_rate = 0.001
 kernel_size = [31, 31]
 sigma = [1, 5]
 
-transform = transforms.Compose([transforms.Resize(size=30),
+transform = transforms.Compose([transforms.Resize(size=40),
     transforms.GaussianBlur(kernel_size=kernel_size, sigma=sigma),
     transforms.ToTensor()])
 
@@ -96,20 +95,26 @@ class ConvolutionNeuNet(nn.Module):
         return x[0][0]
 
 model = ConvolutionNeuNet()
+
 for i, (image, _) in enumerate(train_loader):
     image = image.to(device)
+    np_images = image.detach().numpy()
+    fig = plt.figure()  
+    fig.add_subplot(1,3, 1)
+    plt.imshow(np.transpose(np_images[0], (1, 2, 0)))
+
     output = model(image).to(device).detach().numpy()
-    D = 20
+
+    D = 35
     rows, cols = output.shape
     radius = cols//2 if rows > cols else rows//2
     z_output = zernik(img=output, radius=radius, D=D, cof=(rows/2., cols/2.))
     z_output = z_output.reshape(output.shape).astype(np.float32)
     recon_image = np.multiply(output, z_output)
 
-    fig = plt.figure()  
-    fig.add_subplot(1,2, 1)
+    fig.add_subplot(1,3, 2)
     plt.imshow(output)
-    fig.add_subplot(1,2, 2)
+    fig.add_subplot(1,3, 3)
     plt.imshow(recon_image)
     plt.show(block=True)
     
